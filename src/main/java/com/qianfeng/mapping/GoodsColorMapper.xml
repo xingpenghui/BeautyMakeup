@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.GoodsColorMapper">
+  <resultMap id="BaseResultMap" type="com.qianfeng.entity.GoodsColor">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="color_id" jdbcType="INTEGER" property="colorId" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="sal_count" jdbcType="INTEGER" property="salCount" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.qianfeng.entity.GoodsColor">
+    <result column="img_url" jdbcType="VARBINARY" property="imgUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, goods_id, color_id, price, count, sal_count
+  </sql>
+  <sql id="Blob_Column_List">
+    img_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_goods_color
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_goods_color
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianfeng.entity.GoodsColor">
+    insert into t_goods_color (id, goods_id, color_id, 
+      price, count, sal_count, 
+      img_url)
+    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{colorId,jdbcType=INTEGER}, 
+      #{price,jdbcType=DOUBLE}, #{count,jdbcType=INTEGER}, #{salCount,jdbcType=INTEGER}, 
+      #{imgUrl,jdbcType=VARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianfeng.entity.GoodsColor">
+    insert into t_goods_color
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="colorId != null">
+        color_id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="salCount != null">
+        sal_count,
+      </if>
+      <if test="imgUrl != null">
+        img_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="colorId != null">
+        #{colorId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="salCount != null">
+        #{salCount,jdbcType=INTEGER},
+      </if>
+      <if test="imgUrl != null">
+        #{imgUrl,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianfeng.entity.GoodsColor">
+    update t_goods_color
+    <set>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="colorId != null">
+        color_id = #{colorId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="salCount != null">
+        sal_count = #{salCount,jdbcType=INTEGER},
+      </if>
+      <if test="imgUrl != null">
+        img_url = #{imgUrl,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qianfeng.entity.GoodsColor">
+    update t_goods_color
+    set goods_id = #{goodsId,jdbcType=INTEGER},
+      color_id = #{colorId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DOUBLE},
+      count = #{count,jdbcType=INTEGER},
+      sal_count = #{salCount,jdbcType=INTEGER},
+      img_url = #{imgUrl,jdbcType=VARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianfeng.entity.GoodsColor">
+    update t_goods_color
+    set goods_id = #{goodsId,jdbcType=INTEGER},
+      color_id = #{colorId,jdbcType=INTEGER},
+      price = #{price,jdbcType=DOUBLE},
+      count = #{count,jdbcType=INTEGER},
+      sal_count = #{salCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

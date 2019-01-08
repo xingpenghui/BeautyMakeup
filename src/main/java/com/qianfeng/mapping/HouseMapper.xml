@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.HouseMapper">
+  <resultMap id="BaseResultMap" type="com.qianfeng.entity.House">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="property_owner" jdbcType="VARCHAR" property="propertyOwner" />
+    <result column="id_num" jdbcType="VARCHAR" property="idNum" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="use_area" jdbcType="DOUBLE" property="useArea" />
+    <result column="create_date" jdbcType="DATE" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, property_owner, id_num, type, use_area, create_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_house
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_house
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianfeng.entity.House">
+    insert into t_house (id, name, property_owner, 
+      id_num, type, use_area, 
+      create_date)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{propertyOwner,jdbcType=VARCHAR}, 
+      #{idNum,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{useArea,jdbcType=DOUBLE}, 
+      #{createDate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianfeng.entity.House">
+    insert into t_house
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="propertyOwner != null">
+        property_owner,
+      </if>
+      <if test="idNum != null">
+        id_num,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="useArea != null">
+        use_area,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyOwner != null">
+        #{propertyOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null">
+        #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="useArea != null">
+        #{useArea,jdbcType=DOUBLE},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianfeng.entity.House">
+    update t_house
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="propertyOwner != null">
+        property_owner = #{propertyOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null">
+        id_num = #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="useArea != null">
+        use_area = #{useArea,jdbcType=DOUBLE},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianfeng.entity.House">
+    update t_house
+    set name = #{name,jdbcType=VARCHAR},
+      property_owner = #{propertyOwner,jdbcType=VARCHAR},
+      id_num = #{idNum,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      use_area = #{useArea,jdbcType=DOUBLE},
+      create_date = #{createDate,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

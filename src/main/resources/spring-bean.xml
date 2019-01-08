@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+        
+        <!-- 扫描相关注解 -->  
+	<context:component-scan base-package="com.qianfeng">
+	<!-- 排除指定的注解 -->
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>        
+   
+   <!-- 引入该配置，就可以对方法中的参数进行验证 -->
+	<bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
+   
+ <!-- 1 druid数据源 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		  init-method="init" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://10.8.155.9:3306/mz" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="5" />
+		<property name="minIdle" value="5" />
+		<property name="maxActive" value="10" />
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="10000" />
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="testWhileIdle" value="true" />
+		<!-- 这里建议配置为TRUE，防止取到的连接不可用 -->
+		<property name="testOnBorrow" value="true" />
+		<property name="testOnReturn" value="false" />
+		
+	</bean>
+	
+	<!-- 2 创建Mybatis的工厂对象 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!--设置数据库连接池 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 加载mybatis主配置文件 -->
+		<!-- classpath 表示classes目录所在路径 -->
+		<property name="configLocation" value="classpath:mybatis.xml"/>
+		<!-- 加载映射文件 -->
+		<property name="mapperLocations" value="classpath:com/qianfeng/mapping/*.xml"/>
+	</bean>
+	
+	<!--3设置Mybatis的映射接口 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+		<!-- 设置映射文件所在包 -->
+		<property name="basePackage" value="com.qianfeng.dao"></property>
+	</bean>
+	
+	<!-- 4配置事务管理类 -->
+   	<bean id="txManage" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+   		
+   		<property name="dataSource" ref="dataSource"></property>
+   	</bean>
+   
+    <!-- 5配置事务的特性 -->
+   <tx:advice id="txAdvice" transaction-manager="txManage">
+   		<tx:attributes>
+   			<!-- 针对使用事务的add开头的方法 
+   			read-only 是否只读，true 是，false 可读可写
+   			如果有插入等操作，设为为true，运行程序会报异常-->
+   			<tx:method name="add*" read-only="false" propagation="REQUIRED"/>
+   			<tx:method name="delete*" read-only="false"  propagation="REQUIRED"/>
+   			<tx:method name="update*" read-only="false"  propagation="REQUIRED"/>
+   			<tx:method name="find*" read-only="true"  propagation="REQUIRED"/>
+   			<tx:method name="login*" read-only="true"  propagation="REQUIRED"/>
+   			<!-- 针对其余的方法 -->
+   			<tx:method name="*" propagation="NOT_SUPPORTED"/>
+   			
+   		</tx:attributes>
+   </tx:advice>
+   
+   <!-- 6 AOP配置 -->
+   <aop:config>
+   		<!-- 切入点 -->
+   		<aop:pointcut expression="execution(* com.qianfeng.service.impl.*.*(..))" id="pc"/>
+   		<!-- 通知 -->
+   		<aop:advisor advice-ref="txAdvice" pointcut-ref="pc"/>
+   
+   </aop:config>
+        
+</beans>

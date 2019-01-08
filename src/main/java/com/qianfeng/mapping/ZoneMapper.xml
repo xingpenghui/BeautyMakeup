@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.ZoneMapper">
+  <resultMap id="BaseResultMap" type="com.qianfeng.entity.Zone">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="likes" jdbcType="INTEGER" property="likes" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.qianfeng.entity.ZoneWithBLOBs">
+    <result column="img_path" jdbcType="VARBINARY" property="imgPath" />
+    <result column="title" jdbcType="VARBINARY" property="title" />
+    <result column="info" jdbcType="VARBINARY" property="info" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, likes, goods_id
+  </sql>
+  <sql id="Blob_Column_List">
+    img_path, title, info
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_zone
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_zone
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianfeng.entity.ZoneWithBLOBs">
+    insert into t_zone (id, user_id, likes, 
+      goods_id, img_path, title, 
+      info)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{likes,jdbcType=INTEGER}, 
+      #{goodsId,jdbcType=INTEGER}, #{imgPath,jdbcType=VARBINARY}, #{title,jdbcType=VARBINARY}, 
+      #{info,jdbcType=VARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianfeng.entity.ZoneWithBLOBs">
+    insert into t_zone
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="likes != null">
+        likes,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="imgPath != null">
+        img_path,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="info != null">
+        info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="likes != null">
+        #{likes,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="imgPath != null">
+        #{imgPath,jdbcType=VARBINARY},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARBINARY},
+      </if>
+      <if test="info != null">
+        #{info,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianfeng.entity.ZoneWithBLOBs">
+    update t_zone
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="likes != null">
+        likes = #{likes,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="imgPath != null">
+        img_path = #{imgPath,jdbcType=VARBINARY},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARBINARY},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qianfeng.entity.ZoneWithBLOBs">
+    update t_zone
+    set user_id = #{userId,jdbcType=INTEGER},
+      likes = #{likes,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      img_path = #{imgPath,jdbcType=VARBINARY},
+      title = #{title,jdbcType=VARBINARY},
+      info = #{info,jdbcType=VARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianfeng.entity.Zone">
+    update t_zone
+    set user_id = #{userId,jdbcType=INTEGER},
+      likes = #{likes,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

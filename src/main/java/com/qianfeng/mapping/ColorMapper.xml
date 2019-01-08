@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.ColorMapper">
+  <resultMap id="BaseResultMap" type="com.qianfeng.entity.Color">
+    <id column="id" jdbcType="INTEGER" property="id" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.qianfeng.entity.Color">
+    <result column="color_name" jdbcType="VARBINARY" property="colorName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id
+  </sql>
+  <sql id="Blob_Column_List">
+    color_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_color
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_color
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianfeng.entity.Color">
+    insert into t_color (id, color_name)
+    values (#{id,jdbcType=INTEGER}, #{colorName,jdbcType=VARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianfeng.entity.Color">
+    insert into t_color
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="colorName != null">
+        color_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="colorName != null">
+        #{colorName,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianfeng.entity.Color">
+    update t_color
+    <set>
+      <if test="colorName != null">
+        color_name = #{colorName,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qianfeng.entity.Color">
+    update t_color
+    set color_name = #{colorName,jdbcType=VARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
