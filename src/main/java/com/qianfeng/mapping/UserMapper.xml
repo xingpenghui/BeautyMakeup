@@ -11,14 +11,14 @@
     id, phone, password, flag
   </sql>
 
-  <select id="findAll" parameterMap="BaseResultMap">
+  <select id="findAll" resultMap="BaseResultMap" >
 
     select * from t_user
 
   </select>
 
 
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.qianfeng.entity.User">
     select 
     <include refid="Base_Column_List" />
     from t_user
