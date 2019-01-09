@@ -31,10 +31,10 @@ public class ResultVo {
 		rvo.setData(data);
 		return rvo;
 	}
-	public static ResultVo setERROR() {
+	public static ResultVo setERROR(String message) {
 		ResultVo rvo=new ResultVo();
 		rvo.setCode(1);
-		rvo.setMsg("ERROR");
+		rvo.setMsg(message);
 		return rvo;
 	}
 	
