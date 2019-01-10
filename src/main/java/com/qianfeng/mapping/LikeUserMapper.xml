@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.LikeUserMapper">
+  <resultMap id="BaseResultMap" type="com.qianfeng.entity.LikeUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="l_id" jdbcType="INTEGER" property="lId" />
+  </resultMap>
+  <resultMap id="BaseResultMap01" type="com.qianfeng.vo.LikeUserVo">
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="id" jdbcType="INTEGER" property="zoneId" />
+    <result column="head_url" jdbcType="VARCHAR" property="headUrl" />
+    <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+  </resultMap>
+  <select id="selectByUid" parameterType="int" resultMap="BaseResultMap01">
+    SELECT l.uid,t.id,u.head_url,t.img_path,t.title FROM like_user l
+    INNER JOIN u_detail u
+    on l.l_id=u.uid
+    INNER JOIN t_zone t
+    on l.l_id=t.user_id
+    where l.uid=#{uid}
+  </select>
+
+  <sql id="Base_Column_List">
+    id, uid, l_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from like_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from like_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qianfeng.entity.LikeUser">
+    insert into like_user (id, uid, l_id)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{lId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianfeng.entity.LikeUser">
+    insert into like_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="lId != null">
+        l_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="lId != null">
+        #{lId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianfeng.entity.LikeUser">
+    update like_user
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="lId != null">
+        l_id = #{lId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianfeng.entity.LikeUser">
+    update like_user
+    set uid = #{uid,jdbcType=INTEGER},
+      l_id = #{lId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

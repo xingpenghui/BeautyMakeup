@@ -8,10 +8,56 @@
     <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.qianfeng.entity.ZoneWithBLOBs">
-    <result column="img_path" jdbcType="VARBINARY" property="imgPath" />
-    <result column="title" jdbcType="VARBINARY" property="title" />
-    <result column="info" jdbcType="VARBINARY" property="info" />
+    <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
   </resultMap>
+  <resultMap id="BaseResultMap01" type="com.qianfeng.vo.ZoneDetailVo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="uId" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <result column="likes" jdbcType="INTEGER" property="likes" />
+
+    <result column="head_url" jdbcType="VARCHAR" property="headUrl" />
+    <result column="u_name" jdbcType="VARCHAR" property="uName" />
+
+  </resultMap>
+  <resultMap id="BaseResultMap02" type="com.qianfeng.vo.ZoneSimpleVo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="uId" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="likes" jdbcType="INTEGER" property="likes" />
+
+    <result column="head_url" jdbcType="VARCHAR" property="headUrl" />
+    <result column="u_name" jdbcType="VARCHAR" property="uName" />
+
+  </resultMap>
+
+  <select id="selectById" parameterType="int" resultMap="BaseResultMap01">
+    SELECT t.id,t.user_id,t.goods_id,t.img_path,t.likes,t.info,u.head_url,u.u_name from t_zone t
+    INNER JOIN u_detail u
+    on t.user_id=u.uid
+    where t.id=#{id}
+  </select>
+  <select id="selectSimpleByGoodsType" parameterType="int" resultMap="BaseResultMap02">
+    SELECT t.id,t.user_id,t.goods_id,t.img_path,t.likes,t.title,u.head_url,u.u_name from t_zone t
+    INNER JOIN u_detail u
+    on t.user_id=u.uid
+    INNER JOIN t_goods tg
+    on tg.id=t.goods_id
+    where tg.type=#{style}
+  </select>
+  <select id="selectAllSimpleDesc" resultMap="BaseResultMap02">
+    SELECT t.id,t.user_id,t.goods_id,t.img_path,t.likes,t.title,u.head_url,u.u_name from t_zone t
+    INNER JOIN u_detail u
+    on t.user_id=u.uid
+    ORDER BY t.likes DESC
+  </select>
+
   <sql id="Base_Column_List">
     id, user_id, likes, goods_id
   </sql>
@@ -35,8 +81,8 @@
       goods_id, img_path, title, 
       info)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{likes,jdbcType=INTEGER}, 
-      #{goodsId,jdbcType=INTEGER}, #{imgPath,jdbcType=VARBINARY}, #{title,jdbcType=VARBINARY}, 
-      #{info,jdbcType=VARBINARY})
+      #{goodsId,jdbcType=INTEGER}, #{imgPath,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{info,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.qianfeng.entity.ZoneWithBLOBs">
     insert into t_zone
@@ -77,13 +123,13 @@
         #{goodsId,jdbcType=INTEGER},
       </if>
       <if test="imgPath != null">
-        #{imgPath,jdbcType=VARBINARY},
+        #{imgPath,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
-        #{title,jdbcType=VARBINARY},
+        #{title,jdbcType=VARCHAR},
       </if>
       <if test="info != null">
-        #{info,jdbcType=VARBINARY},
+        #{info,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -100,13 +146,13 @@
         goods_id = #{goodsId,jdbcType=INTEGER},
       </if>
       <if test="imgPath != null">
-        img_path = #{imgPath,jdbcType=VARBINARY},
+        img_path = #{imgPath,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
-        title = #{title,jdbcType=VARBINARY},
+        title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="info != null">
-        info = #{info,jdbcType=VARBINARY},
+        info = #{info,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -116,9 +162,9 @@
     set user_id = #{userId,jdbcType=INTEGER},
       likes = #{likes,jdbcType=INTEGER},
       goods_id = #{goodsId,jdbcType=INTEGER},
-      img_path = #{imgPath,jdbcType=VARBINARY},
-      title = #{title,jdbcType=VARBINARY},
-      info = #{info,jdbcType=VARBINARY}
+      img_path = #{imgPath,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.qianfeng.entity.Zone">

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@Api(produces="接口文档",value="文档")
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(notes="找到所有",tags = {"用户id","yonghu"},value = "dasa")
+
     @GetMapping("/findAll.do")
     public ResultVo findAll(Integer id){
 
