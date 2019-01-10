@@ -5,9 +5,11 @@ public class Order {
 
     private Integer userId;
 
-    private Integer goodsColorId;
+    private Integer totalPrice;
 
     private Integer status;
+
+    private String orderCode;
 
     public Integer getId() {
         return id;
@@ -25,12 +27,12 @@ public class Order {
         this.userId = userId;
     }
 
-    public Integer getGoodsColorId() {
-        return goodsColorId;
+    public Integer getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setGoodsColorId(Integer goodsColorId) {
-        this.goodsColorId = goodsColorId;
+    public void setTotalPrice(Integer totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public Integer getStatus() {
@@ -39,5 +41,13 @@ public class Order {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode == null ? null : orderCode.trim();
     }
 }

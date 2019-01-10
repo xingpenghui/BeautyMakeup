@@ -9,11 +9,11 @@ public class GoodsColor {
 
     private Double price;
 
+    private String imgUrl;
+
     private Integer count;
 
     private Integer salCount;
-
-    private byte[] imgUrl;
 
     public Integer getId() {
         return id;
@@ -47,6 +47,14 @@ public class GoodsColor {
         this.price = price;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl == null ? null : imgUrl.trim();
+    }
+
     public Integer getCount() {
         return count;
     }
@@ -61,13 +69,5 @@ public class GoodsColor {
 
     public void setSalCount(Integer salCount) {
         this.salCount = salCount;
-    }
-
-    public byte[] getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(byte[] imgUrl) {
-        this.imgUrl = imgUrl;
     }
 }

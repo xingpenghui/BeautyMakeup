@@ -13,7 +13,5 @@ public interface GoodsColorMapper {
 
     int updateByPrimaryKeySelective(GoodsColor record);
 
-    int updateByPrimaryKeyWithBLOBs(GoodsColor record);
-
     int updateByPrimaryKey(GoodsColor record);
 }
