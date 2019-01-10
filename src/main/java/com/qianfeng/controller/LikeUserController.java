@@ -15,9 +15,9 @@ import java.util.List;
 public class LikeUserController {
     @Autowired
     private LikeUserService service;
-    @ApiOperation(notes = "主页的关注页的展示接口",value = "要展示的数据")
+    @ApiOperation(notes = "主页的关注页的展示接口",value = "要展示的数据，uid：现登陆的用户的id")
     @PostMapping("/showLikeUserZone.do")
-    public PageBeanVo<LikeUserVo> showLikeUserZone(@ApiParam(value = "登陆的该用户id") Integer uid, @ApiParam(value = "页码") Integer page, @ApiParam(value = "每页要展示的数据量") Integer limit) {
+    public PageBeanVo<LikeUserVo> showLikeUserZone( Integer uid, Integer page,  Integer limit) {
         return service.showLikeZoneLoad(uid,page,limit);
     }
 
