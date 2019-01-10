@@ -3,24 +3,17 @@
 <mapper namespace="com.qianfeng.dao.GoodsMapper">
   <resultMap id="BaseResultMap" type="com.qianfeng.entity.Goods">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="INTEGER" property="type" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.qianfeng.entity.GoodsWithBLOBs">
-    <result column="name" jdbcType="VARBINARY" property="name" />
-    <result column="goods_info" jdbcType="VARBINARY" property="goodsInfo" />
-    <result column="goods_title" jdbcType="VARBINARY" property="goodsTitle" />
+    <result column="goods_info" jdbcType="VARCHAR" property="goodsInfo" />
+    <result column="goods_title" jdbcType="VARCHAR" property="goodsTitle" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, type
+    id, name, type, goods_info, goods_title
   </sql>
-  <sql id="Blob_Column_List">
-    name, goods_info, goods_title
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from t_goods
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -28,23 +21,23 @@
     delete from t_goods
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.qianfeng.entity.GoodsWithBLOBs">
-    insert into t_goods (id, type, name, 
+  <insert id="insert" parameterType="com.qianfeng.entity.Goods">
+    insert into t_goods (id, name, type, 
       goods_info, goods_title)
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{name,jdbcType=VARBINARY}, 
-      #{goodsInfo,jdbcType=VARBINARY}, #{goodsTitle,jdbcType=VARBINARY})
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{goodsInfo,jdbcType=VARCHAR}, #{goodsTitle,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.qianfeng.entity.GoodsWithBLOBs">
+  <insert id="insertSelective" parameterType="com.qianfeng.entity.Goods">
     insert into t_goods
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="type != null">
-        type,
-      </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="type != null">
+        type,
       </if>
       <if test="goodsInfo != null">
         goods_info,
@@ -57,49 +50,44 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARBINARY},
-      </if>
       <if test="goodsInfo != null">
-        #{goodsInfo,jdbcType=VARBINARY},
+        #{goodsInfo,jdbcType=VARCHAR},
       </if>
       <if test="goodsTitle != null">
-        #{goodsTitle,jdbcType=VARBINARY},
+        #{goodsTitle,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.qianfeng.entity.GoodsWithBLOBs">
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianfeng.entity.Goods">
     update t_goods
     <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARBINARY},
-      </if>
       <if test="goodsInfo != null">
-        goods_info = #{goodsInfo,jdbcType=VARBINARY},
+        goods_info = #{goodsInfo,jdbcType=VARCHAR},
       </if>
       <if test="goodsTitle != null">
-        goods_title = #{goodsTitle,jdbcType=VARBINARY},
+        goods_title = #{goodsTitle,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qianfeng.entity.GoodsWithBLOBs">
-    update t_goods
-    set type = #{type,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARBINARY},
-      goods_info = #{goodsInfo,jdbcType=VARBINARY},
-      goods_title = #{goodsTitle,jdbcType=VARBINARY}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
   <update id="updateByPrimaryKey" parameterType="com.qianfeng.entity.Goods">
     update t_goods
-    set type = #{type,jdbcType=INTEGER}
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      goods_info = #{goodsInfo,jdbcType=VARCHAR},
+      goods_title = #{goodsTitle,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

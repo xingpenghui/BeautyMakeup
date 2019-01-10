@@ -1,5 +1,7 @@
 package com.qianfeng.entity;
 
+import java.util.List;
+
 public class Order {
     private Integer id;
 
@@ -10,6 +12,16 @@ public class Order {
     private Integer status;
 
     private String orderCode;
+
+    private List<OrderDetail> orderDetailList;
+
+    public List<OrderDetail> getOrderDetailList() {
+        return orderDetailList;
+    }
+
+    public void setOrderDetailList(List<OrderDetail> orderDetailList) {
+        this.orderDetailList = orderDetailList;
+    }
 
     public Integer getId() {
         return id;

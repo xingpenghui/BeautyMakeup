@@ -9,6 +9,16 @@ public class OrderDetail {
 
     private Integer num;
 
+    private GoodsColor goodsColor;
+
+    public GoodsColor getGoodsColor() {
+        return goodsColor;
+    }
+
+    public void setGoodsColor(GoodsColor goodsColor) {
+        this.goodsColor = goodsColor;
+    }
+
     public Integer getId() {
         return id;
     }

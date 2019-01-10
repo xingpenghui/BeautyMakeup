@@ -10,6 +10,20 @@
     <result column="count" jdbcType="INTEGER" property="count" />
     <result column="sal_count" jdbcType="INTEGER" property="salCount" />
   </resultMap>
+
+  <resultMap id="allInfo" type="com.qianfeng.entity.GoodsColor">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="color_id" jdbcType="INTEGER" property="colorId" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="sal_count" jdbcType="INTEGER" property="salCount" />
+    <association property="goods"
+                 resultMap="com.qianfeng.dao.GoodsMapper.BaseResultMap"></association>
+  </resultMap>
+
+
   <sql id="Base_Column_List">
     id, goods_id, color_id, price, img_url, count, sal_count
   </sql>
@@ -19,6 +33,16 @@
     from t_goods_color
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectById" parameterType="int" resultMap="allInfo" >
+
+    SELECT * from t_goods_color gc
+INNER JOIN t_goods g
+WHERE gc.goods_id = g.id
+and gc.id=#{id}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_goods_color
     where id = #{id,jdbcType=INTEGER}

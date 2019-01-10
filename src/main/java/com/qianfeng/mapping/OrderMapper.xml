@@ -8,9 +8,41 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
   </resultMap>
+
+  <resultMap id="allInfo" type="com.qianfeng.entity.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="total_price" jdbcType="INTEGER" property="totalPrice" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+    <collection property="orderDetailList" column="id"
+                select="com.qianfeng.dao.OrderDetailMapper.selectByOrderId"
+
+    ></collection>
+
+  </resultMap>
+
+
   <sql id="Base_Column_List">
     id, user_id, total_price, status, order_code
   </sql>
+
+  <select id="selectByInfo" parameterType="com.qianfeng.entity.Order" resultMap="allInfo">
+
+    select * FROM t_order
+
+
+    <where>
+
+      <if test="userId != null">
+        and user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="status != null">
+        and status = #{status,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

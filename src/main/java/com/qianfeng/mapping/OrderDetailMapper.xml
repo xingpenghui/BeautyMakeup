@@ -7,9 +7,29 @@
     <result column="order_id" jdbcType="INTEGER" property="orderId" />
     <result column="num" jdbcType="INTEGER" property="num" />
   </resultMap>
+
+  <resultMap id="allInfo" type="com.qianfeng.entity.OrderDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goods_color_id" jdbcType="INTEGER" property="goodsColorId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <association property="goodsColor" column="goods_color_id"
+
+                 select="com.qianfeng.dao.GoodsColorMapper.selectById"
+    ></association>
+  </resultMap>
+
+
   <sql id="Base_Column_List">
     id, goods_color_id, order_id, num
   </sql>
+
+  <select id="selectByOrderId" resultMap="allInfo" parameterType="int">
+      SELECT * from t_order_detail WHERE order_id=#{id}
+
+
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
