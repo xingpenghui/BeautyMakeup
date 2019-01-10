@@ -4,11 +4,12 @@
   <resultMap id="BaseResultMap" type="com.qianfeng.entity.Order">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="goods_color_id" jdbcType="INTEGER" property="goodsColorId" />
+    <result column="total_price" jdbcType="INTEGER" property="totalPrice" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, goods_color_id, status
+    id, user_id, total_price, status, order_code
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -21,10 +22,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.qianfeng.entity.Order">
-    insert into t_order (id, user_id, goods_color_id, 
-      status)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{goodsColorId,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER})
+    insert into t_order (id, user_id, total_price, 
+      status, order_code)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{totalPrice,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.qianfeng.entity.Order">
     insert into t_order
@@ -35,11 +36,14 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="goodsColorId != null">
-        goods_color_id,
+      <if test="totalPrice != null">
+        total_price,
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="orderCode != null">
+        order_code,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -49,11 +53,14 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="goodsColorId != null">
-        #{goodsColorId,jdbcType=INTEGER},
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="orderCode != null">
+        #{orderCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -63,11 +70,14 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="goodsColorId != null">
-        goods_color_id = #{goodsColorId,jdbcType=INTEGER},
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="orderCode != null">
+        order_code = #{orderCode,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -75,8 +85,9 @@
   <update id="updateByPrimaryKey" parameterType="com.qianfeng.entity.Order">
     update t_order
     set user_id = #{userId,jdbcType=INTEGER},
-      goods_color_id = #{goodsColorId,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER}
+      total_price = #{totalPrice,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      order_code = #{orderCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
